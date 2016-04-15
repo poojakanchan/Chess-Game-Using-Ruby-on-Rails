@@ -11,10 +11,72 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415213042) do
+ActiveRecord::Schema.define(version: 20160415232228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chess_games", force: :cascade do |t|
+    t.string   "gameType"
+    t.integer  "playerWhiteId"
+    t.integer  "playerBlackId"
+    t.string   "accessCode"
+    t.boolean  "publicMatch"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "chess_pieces", force: :cascade do |t|
+    t.string   "pieceType"
+    t.binary   "pieceImage"
+    t.integer  "initialRow"
+    t.string   "initialCol"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.integer  "row"
+    t.integer  "col"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "piece_locations", force: :cascade do |t|
+    t.integer  "row"
+    t.integer  "col"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "chess_piece_id"
+  end
+
+  create_table "pieces", force: :cascade do |t|
+    t.string   "type"
+    t.binary   "image"
+    t.integer  "row"
+    t.integer  "col"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string   "name"
+    t.binary   "profileImage"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "statistics", force: :cascade do |t|
+    t.integer  "wins"
+    t.integer  "loses"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
