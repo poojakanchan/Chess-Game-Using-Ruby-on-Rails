@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: MyString
+  password: MyString
+  public: false
+
+two:
+  category: MyString
+  password: MyString
+  public: false

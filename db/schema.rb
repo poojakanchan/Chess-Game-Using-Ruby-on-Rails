@@ -11,33 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415232228) do
+ActiveRecord::Schema.define(version: 20160416011840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "chess_games", force: :cascade do |t|
-    t.string   "gameType"
-    t.integer  "playerWhiteId"
-    t.integer  "playerBlackId"
-    t.string   "accessCode"
-    t.boolean  "publicMatch"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  create_table "chess_pieces", force: :cascade do |t|
-    t.string   "pieceType"
-    t.binary   "pieceImage"
-    t.integer  "initialRow"
-    t.string   "initialCol"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "friends", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "player1_id"
+    t.integer  "player2_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string   "category"
+    t.string   "password"
+    t.boolean  "public"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "player_white_id"
+    t.integer  "player_black_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -45,18 +38,13 @@ ActiveRecord::Schema.define(version: 20160415232228) do
     t.integer  "col"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "piece_locations", force: :cascade do |t|
-    t.integer  "row"
-    t.integer  "col"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "chess_piece_id"
+    t.integer  "piece_id"
+    t.integer  "player_id"
+    t.integer  "game_id"
   end
 
   create_table "pieces", force: :cascade do |t|
-    t.string   "type"
+    t.string   "name"
     t.binary   "image"
     t.integer  "row"
     t.integer  "col"
@@ -66,9 +54,10 @@ ActiveRecord::Schema.define(version: 20160415232228) do
 
   create_table "players", force: :cascade do |t|
     t.string   "name"
-    t.binary   "profileImage"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.binary   "thumbnail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "password"
   end
 
   create_table "statistics", force: :cascade do |t|
@@ -76,6 +65,7 @@ ActiveRecord::Schema.define(version: 20160415232228) do
     t.integer  "loses"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "player_id"
   end
 
   create_table "users", force: :cascade do |t|

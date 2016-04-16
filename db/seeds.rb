@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+@piece1 = Piece.create(name: "Queen",row: 1, col: 1)
+@location1 = Location.create(row: 1, col: 1)
+
+@location1.piece= @piece1
+
