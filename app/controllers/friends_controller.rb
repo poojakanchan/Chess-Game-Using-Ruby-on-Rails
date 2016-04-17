@@ -1,5 +1,8 @@
 class FriendsController < ApplicationController
   before_action :set_friend, only: [:show, :edit, :update, :destroy]
+  
+   def show_player
+   end
 
   # GET /friends
   # GET /friends.json

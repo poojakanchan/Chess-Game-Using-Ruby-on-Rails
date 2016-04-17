@@ -1,5 +1,32 @@
 <html>
+<head>
+  <title>ChessProjectApplication</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+    <body>
+     <div class="container-fluid">
+  <h1>Hello World!</h1>
+  <p>Resize the browser window to see the effect.</p>
+  <div class="row">
+    <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+    <div class="col-sm-8" style="background-color:lavenderblush;">.col-sm-8</div>
+  </div>
+  <%= "For loop example" %>
 
-<h1>Hello World</h1>
-
+  <% 11.times do |i| %>
+      <%= i %> 
+  <% end %>
+  <% if(params.has_key?(:first_name) && params.has_key?(:last_name)) %>
+        <%= "My name is #{@full_name}" %>
+  <% else %>
+        <%= "I don't have name " %>
+   <% end %>
+</div>  
+</body>
 </html>
+

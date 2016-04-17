@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 gem 'devise'
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

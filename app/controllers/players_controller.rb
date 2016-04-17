@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
+  
 
   # GET /players
   # GET /players.json
@@ -69,6 +70,8 @@ class PlayersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def player_params
-      params.require(:player).permit(:name, :thumbnail)
+      params.require(:player).permit(:name, :thumbnail,:username,:password,:password_confirmation)
     end
+
+
 end
