@@ -26,6 +26,10 @@
   <% else %>
         <%= "I don't have name " %>
    <% end %>
+
+   <% if current_user %>
+   <%=   current_user.email %>
+   <%  end %>
 </div>  
 </body>
 </html>

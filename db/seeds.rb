@@ -12,6 +12,6 @@
 
 #@location1.piece= @piece1
 
-@player1 = Player.find_by_name("Pooja")
+@player1 = User.find(1)
 @stat = Statistic.create(wins: 1 , loses: 1)
 @players1.statistics = @stat
