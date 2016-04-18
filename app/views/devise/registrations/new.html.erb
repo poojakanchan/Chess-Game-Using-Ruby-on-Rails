@@ -1,11 +1,15 @@
+<center>
+<div class="container">
+<div class="row">
+<div class="form-login">
 <h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.label :email  wrapper_html: { class:  'type' }%><br />
+    <%= f.email_field :email, autofocus: true%>
   </div>
 
   <div class="field">
@@ -18,7 +22,7 @@
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%= f.password_field :password_confirmation, autocomplete: "off"  %>
   </div>
 
   <div class="actions">
@@ -27,3 +31,4 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+</div></center>

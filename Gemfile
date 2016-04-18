@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'pusher'
 gem 'bootstrap-sass'
+gem 'bootstrap_form'
 gem 'autoprefixer-rails'
 gem 'devise'
 gem 'pg'
