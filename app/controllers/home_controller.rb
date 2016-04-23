@@ -14,7 +14,7 @@ Pusher.encrypted = true
     #  message: 'hello world'
     #})"
         @king = Piece.find_by_name("black_king")
-        @image_url =  @king.image
+        #@image_url =  @king.image
    end
 
   def sample
