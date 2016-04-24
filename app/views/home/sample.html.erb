@@ -2,7 +2,22 @@
   Sample FIle
 
   <%= "Message from controller  #{@controller_message}" %>
+<%= "For loop example" %>
 
+  <% 11.times do |i| %>
+      <%= i %> 
+  <% end %>
+  <% if(params.has_key?(:first_name) && params.has_key?(:last_name)) %>
+        <%= "My name is #{@full_name}" %>
+  <% else %>
+        <%= "I don't have name " %>
+   <% end %>
+
+   <% if current_user %>
+   <%=   current_user.email %>
+   <%  end %>
+   
+   <%= image_tag("#{@image_url}", size: "50x50") %>
   <%= link_to("GO to index",
         {:controller => 'home',
          :action => 'hello',

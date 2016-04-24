@@ -6,7 +6,7 @@ Pusher.key = '263edcd8170410acaa6b'
 Pusher.secret = 'f79de19f07eb7cd9140c'
 Pusher.logger = Rails.logger
 Pusher.encrypted = true
-   def hello
+   def index
       if(params.has_key?(:first_name) && params.has_key?(:last_name))
          @full_name = params[:first_name] + params[:last_name];      
       end

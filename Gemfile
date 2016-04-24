@@ -1,11 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'pusher'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'autoprefixer-rails'
 gem 'devise'
 gem 'pg'
+gem 'lodash-rails'
+gem 'dotenv-rails', :groups => [:development, :test]
+
+gem 'pusher'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
