@@ -10,9 +10,13 @@ Pusher.encrypted = true
       if(params.has_key?(:first_name) && params.has_key?(:last_name))
          @full_name = params[:first_name] + params[:last_name];      
       end
-    #  Pusher.trigger('test_channel', 'my_event', {
-    #  message: 'hello world'
-    #})"
+      
+      if current_user && current_user.statistic
+
+         params[:statistics] = current_user.statistic
+
+      end
+      
         @king = Piece.find_by_name("black_king")
         #@image_url =  @king.image
    end

@@ -7,31 +7,82 @@
   
 
 </head>
-    <body>
-        <h1>Hello World!</h1>
-        <p>Resize the browser window to see the effect.</p>
-       <div class="row">
-          <div class="col-sm-6" style="background-color:lavender;">
-            <div id="board2" style="width: 400px"></div>
-              <input type="button" id="startBtn" value="Start" />
-              <input type="button" id="clearBtn" value="Clear" />
+ <body>
+        <h1><%= "Hello " + current_user.name + "!" %></h1>
+    <% if user_signed_in? %>
+      <li>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+  </li>
+<% end %>
+
+    <div class="row">   
+   <div class=" col-lg-9 col-md-9 col-sm-9">
+  <ul class="nav nav-tabs"> <!-- Tab for the Statistics and Game -->
+   <li class="active"><a data-toggle="tab" href="#statistics">Statistics</a></li>
+   <li><a href="#game" data-toggle="tab"> Game </a></li>        
+  
+  </ul> <!-- End tab -->
+
+  <div class="tab-content">
+     <div id="statistics" class="tab-pane fade in active" >
+       <% if(params.has_key?(:statistics)) %>
+      <table class="table" id="stat_table">
+        <tbody>
+         <tr>
+       
+           <td> Total Games</td>
+           <td> <%=  params[:statistics].wins +   params[:statistics].loses %></td>
+         </tr>
+         <tr>
+           <td> No of games won</td>
+           <td> <%= params[:statistics].wins %></td>
+         </tr>
+         <tr>
+          <td> No of games lost</td>
+          <td> <%= params[:statistics].loses %></td>
+        </tr>
+       </tbody>
+      </table>
+      <% end %>
+    </div>
+
+      <div id="game" class="tab-pane fade" data-toggle="tab">
+        <div id="board2" style="width: 400px">
+        </div>
+        <input type="button" id="startBtn" value="Start" />
+        <input type="button" id="clearBtn" value="Clear" />
+      </div>
+  </div>
+</div>
+        <div class=" col-lg-3 col-md-3 col-sm-3">
+          <div class="chat-box-div">
+            <div class="chat-box-head">
+              GROUP CHAT HISTORY     
+
             </div>
-          <div class="col-sm-6" style="background-color:lavenderblush;">
-            <div id= "wrapper">
-              <div id = "message">
-                <span class="timestamp"> Timestamp</span>
-                <span class="name"> Name</span>
-                <span class="message"> Message</span>
+            <div class="panel-body chat-box-main">
+              <div id="message" >
+                <div class="chat-box-left">
+                  Welcome User.
+                </div>
+                <div class="chat-box-name-left">
+                  Admin, 24-April 2016
+                </div>
+                <hr class="hr-clas" />
               </div>
-              <div id="user-input"> 
-                <input type="text" id="chatbox" > </input>
-                <button id="send" class="btn btn-primary"> Send</button>
-              </div> 
+            </div>
+            <div class="chat-box-footer">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter Text  Here..." id="chatbox">
+                <span class="input-group-btn">
+                  <button class="btn btn-info" type="button" id="send">SEND</button>
+                </span>
+              </div>
             </div>
           </div>
-       </div>
-   
-    </body>
+        </div>
+    </div>                                   
+ </body>
 
       <script>
     

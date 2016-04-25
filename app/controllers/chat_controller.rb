@@ -11,17 +11,26 @@ class ChatController < ApplicationController
     encrypted: true
   )
 
+  @timestamp = Time.now().strftime("%d/%m/%Y %H:%M")
+  @msg = {
+    "name" => current_user.name,
+     "message" => params[:message], 
+     "timestamp" => @timestamp
+   }
   pusher_client.trigger('public-chat', 'message-sent', {
-    name: current_user.email,
+    name: current_user.name,
     message: params[:message],
-    timestamp: Time.now()
+    timestamp: @timestamp
+  }, {
+    socket_id: params[:socket_id]
   })
+
   #Pusher.trigger('test_channel', 'my_event', {
    #   message: 'hello world'
    # })
     
-  respond_to :js
- 	#  render json, status: :ok
+  #respond_to :js
+ 	  render :json => @msg, status: :ok
 		
   end
 
