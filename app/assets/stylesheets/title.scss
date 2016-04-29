@@ -1,0 +1,38 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+h1 {
+    color:#369;
+    font-family:'Sans-serif';
+}
+
+body {
+     
+     background: url('chess-1215079.jpg');
+     background-size: 7440px 800px;
+     
+     }
+
+    #logo {
+    height: 45px;
+    margin-left: 34px;
+    margin-top: -15px;
+}
+
+     #widewrapper {
+     width:100%;
+     }
+
+     .main-image { 
+   position: relative; 
+   width: 100%; /* for IE 6 */
+}
+
+.main-image h2 { 
+   position: absolute; 
+   top: 100px; 
+   left: 0; 
+   width: 100%; 
+}
+

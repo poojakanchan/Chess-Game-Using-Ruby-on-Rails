@@ -24,4 +24,8 @@ Pusher.encrypted = true
   def sample
     @controller_message = "Hello"
   end
+
+  def title
+    
+  end
 end

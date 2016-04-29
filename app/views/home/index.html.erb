@@ -1,19 +1,5 @@
-<html>
-<head>
-  <title>ChessProjectApplication</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-  
 
-</head>
- <body>
-        <h1><%= "Hello " + current_user.name + "!" %></h1>
-    <% if user_signed_in? %>
-      <li>
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
-  </li>
-<% end %>
+      
 
     <div class="row">   
    <div class=" col-lg-9 col-md-9 col-sm-9">
@@ -29,7 +15,6 @@
       <table class="table" id="stat_table">
         <tbody>
          <tr>
-       
            <td> Total Games</td>
            <td> <%=  params[:statistics].wins +   params[:statistics].loses %></td>
          </tr>
@@ -82,7 +67,7 @@
           </div>
         </div>
     </div>                                   
- </body>
+ 
 
       <script>
     
@@ -95,5 +80,5 @@
         $('#clearBtn').on('click', board2.clear);
     
   </script>
-</html>
+
 
