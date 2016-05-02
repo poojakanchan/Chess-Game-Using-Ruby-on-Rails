@@ -1,4 +1,6 @@
+
 <div class="panel panel-default devise-bs" style="position: relative; top:16px; width: 800px;" >
+  <div class="center-block">
   <div class="panel-heading">
     <h4><%= t('.sign_in', :default => "Sign in") %></h4>
   </div>
@@ -22,5 +24,6 @@
       <%= f.submit  t('.sign_in', :default => "Sign in"), class: "btn btn-primary" %>
     <% end %>
   </div>
+</div>
 </div>
 <%= render "devise/shared/links" %>
