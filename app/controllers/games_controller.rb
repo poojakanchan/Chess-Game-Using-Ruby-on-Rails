@@ -4,8 +4,20 @@ class GamesController < ApplicationController
   # GET /games/1
   # GET /games/1.json
   def show
-     
+    if(params.has_key?(:user) && params.has_key?(:game_id))
+    @user =  params[:user]
+    @game_id = params[:game_id]
+    @game = Game.find(@game_id)
+    @game.user_black_id = @user
+    @game.save
+
+    end
   end
+
+  def join
+
+
+   end 
 
   # GET /games/new
   def new
