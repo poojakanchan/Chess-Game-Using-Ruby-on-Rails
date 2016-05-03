@@ -11,3 +11,6 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += %w( home.js )
+Rails.application.config.assets.precompile += %w( games.js )
+Rails.application.config.assets.precompile += %w( chess.js )
+Rails.application.config.assets.precompile += %w( chessboard-0.3.0.js )

@@ -42,7 +42,7 @@ $(document).ready( function() {
            
             $.post( URI, payload,function(response){
                 console.log(response)
-                 add_message(response);
+        //         add_message(response);
             } );
 
             $('input#chatbox').val('');
