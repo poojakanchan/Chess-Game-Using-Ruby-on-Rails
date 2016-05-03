@@ -1,19 +1,42 @@
-<p id="notice"><%= notice %></p>
+<div class="container container-center">
+<div class="row">
+  <div class=" col-lg-9 col-md-9 col-sm-9">
+    
+         <script src="/assets/chess.js"></script>
+        <div id="board" style="width: 400px"></div>
+        <p>Status: <span id="status"></span></p>
+        <p>FEN: <span id="fen"></span></p>
+        <p>PGN: <span id="pgn"></span></p>
+      </div>
+  
 
-<p>
-  <strong>Category:</strong>
-  <%= @game.category %>
-</p>
-
-<p>
-  <strong>Password:</strong>
-  <%= @game.password %>
-</p>
-
-<p>
-  <strong>Public:</strong>
-  <%= @game.public %>
-</p>
-
-<%= link_to 'Edit', edit_game_path(@game) %> |
-<%= link_to 'Back', games_path %>
+  <div class=" col-lg-3 col-md-3 col-sm-3">
+    <div class="chat-box-div">
+      <div class="chat-box-head">
+        GROUP CHAT HISTORY
+      </div>
+      <div class="panel-body chat-box-main">
+        <div id="message">
+          <div class="chat-box-left">
+            Welcome User.
+          </div>
+          <div class="chat-box-name-left">
+            Admin, 24-April 2016
+          </div>
+          <hr class="hr-clas" />
+        </div>
+      </div>
+            
+      <div class="chat-box-footer">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Enter Text Here..." id="chatbox">
+          <span class="input-group-btn">
+            <button class="btn btn-info" type="button" id="send">SEND</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>                                   
+ 

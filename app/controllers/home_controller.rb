@@ -10,7 +10,7 @@ Pusher.encrypted = true
       if(params.has_key?(:first_name) && params.has_key?(:last_name))
          @full_name = params[:first_name] + params[:last_name];      
       end
-      
+        @games = Game.where(user_black_id: nil)
       if current_user && current_user.statistic
 
          params[:statistics] = current_user.statistic

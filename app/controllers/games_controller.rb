@@ -1,15 +1,10 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
-
-  # GET /games
-  # GET /games.json
-  def index
-    @games = Game.all
-  end
+  
 
   # GET /games/1
   # GET /games/1.json
   def show
+     
   end
 
   # GET /games/new
@@ -17,39 +12,31 @@ class GamesController < ApplicationController
     @game = Game.new
   end
 
-  # GET /games/1/edit
-  def edit
-  end
-
   # POST /games
   # POST /games.json
   def create
-    @game = Game.new(game_params)
+     pusher_client = Pusher::Client.new(
+    app_id: ENV['PUSHER_APP_ID'],
+    key: ENV['PUSHER_KEY'],
+    secret: ENV['PUSHER_SECRET'],
+    encrypted: true
+  )
+    @game = Game.new
+    @game.user_white_id = current_user.id.to_i
+    @game.save
+    id = "game" + @game.id.to_s
 
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
-        format.json { render :show, status: :created, location: @game }
-      else
-        format.html { render :new }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+    pusher_client.trigger(id, 'create', {
+    name: current_user.name
+  })
 
-  # PATCH/PUT /games/1
-  # PATCH/PUT /games/1.json
-  def update
-    respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
-        format.json { render :show, status: :ok, location: @game }
-      else
-        format.html { render :edit }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+    @msg = {
+       "redirect" => true,
+       "redirectURL" => '/games/' + @game.id.to_s
+    }
+     render :json => @msg, status: :ok
+    
+  end 
 
   # DELETE /games/1
   # DELETE /games/1.json
@@ -61,14 +48,37 @@ class GamesController < ApplicationController
     end
   end
 
+
+
+ def move 
+ 
+   
+    pusher_client = Pusher::Client.new(
+    app_id: ENV['PUSHER_APP_ID'],
+    key: ENV['PUSHER_KEY'],
+    secret: ENV['PUSHER_SECRET'],
+    encrypted: true
+  )
+ 
+  pusher_client.trigger('chess', 'move', {
+    source: params[:source],
+    target: params[:target],
+    piece: params[:piece],
+    newposition: params[:newposition]
+    #timestamp: @timestamp
+  })
+
+  #Pusher.trigger('test_channel', 'my_event', {
+   #   message: 'hello world'
+   # })
+    
+  respond_to :js
+    #render :json , status: :ok
+    
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:category, :password, :public)
     end
 end

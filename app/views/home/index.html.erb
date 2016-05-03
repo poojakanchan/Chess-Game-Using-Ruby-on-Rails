@@ -29,11 +29,21 @@
       </div>
 
       <div id="game" class="tab-pane fade" data-toggle="tab">
-        <script src="/assets/chess.js"></script>
-        <div id="board" style="width: 400px"></div>
-        <p>Status: <span id="status"></span></p>
-        <p>FEN: <span id="fen"></span></p>
-        <p>PGN: <span id="pgn"></span></p>
+        <button class="btn btn-info" type="button" id="create">Create</button>
+
+         <table class="table">  
+       
+        <% @games.each do |game| 
+           @user = User.find(game.user_white_id)
+           %>
+      <tr>
+        <td><%= game.user_white_id  %></td>
+        <td><%= @user.name  %></td>
+      <td> <%= link_to 'Join', game, class: "btn btn-primary", method:'GET' %></td>
+         </tr>
+         <% end %>
+      </table>
+
       </div>
     </div>
   </div>
@@ -65,5 +75,5 @@
       </div>
     </div>
   </div>
-</div>                                   
- 
+</div>  
+</div> 
