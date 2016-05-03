@@ -8,6 +8,7 @@ Rails.application.routes.draw do
  # devise_for :users
  
    post 'chat/message' => 'chat#message'
+   post 'chat/move'  => 'chat#move'
      get 'home/assets/:name.:ext', to: redirect('assets/%{name}.%{ext}')
  
    match ':controller(/:action(/:id))', :via => :get
