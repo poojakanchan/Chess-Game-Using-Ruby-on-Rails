@@ -17,6 +17,15 @@ var add_message = function( message ) {
 
 $(document).ready( function() {
   // load chess board
+
+  user = $('.temp_information').data('user');
+  color = $('.temp_information').data('color');
+   game_id = $('.temp_information').data('game');
+
+  console.log("user is " + user);
+  console.log("color is " + color);
+  console.log("game id " + game_id);
+  
    var socket_id = null;
    pusher.connection.bind('connected', function () {
    socket_id = pusher.connection.socket_id;
@@ -48,6 +57,11 @@ $(document).ready( function() {
 
       };
     });
+
+    $('button#quit').click( function() {
+       // $('#quit').confirmation('show');
+
+     });
 
    console.log( 'Games DOM LOADED' );
 
@@ -107,34 +121,49 @@ $(document).ready( function() {
       console.log(move);
       // when chat button is pressed.
           
+        var moveColor = 'white';
+          if (game.turn() === 'b') {
+             moveColor = 'black';
+        }
+
+            var status = null;
+            var winner = null;
             var URI = '/games/move';
             console.log(move.piece);
             console.log(move.to);
+            if (game.in_checkmate() === true) {
+              status = "checkmate";
+                 if(color == moveColor){
+                    winner = "yes";
+                  } else {
+                winner = "no";
+               }
+            }
+          else if (game.in_draw() === true) {
+            status = "draw";
+          }
 
-         
-         
+      // game still on
+      else {
+        status = "on";
+        }
             var payload = {
                 source: move.from,
                 target: move.to,
                 piece: move.piece,
                 newposition: ChessBoard.objToFen(move.to),
-                socket_id: socket_id
+                socket_id: socket_id,
+                status: status,
+                winner: winner,
+                game_id: game_id
              };
 
              console.log(payload);
-
-
-           
 
       $.post( URI, payload,function(response){
 
                 // add_message(response);
             });
-
-
-
-      
-
       updateStatus();
     };
 
@@ -147,28 +176,43 @@ $(document).ready( function() {
     var updateStatus = function() {
       var status = '';
 
-      var moveColor = 'White';
+      var moveColor = 'white';
       if (game.turn() === 'b') {
-        moveColor = 'Black';
+        moveColor = 'black';
       }
 
       // checkmate?
       if (game.in_checkmate() === true) {
-        status = 'Game over, ' + moveColor + ' is in checkmate.';
+        if(color == moveColor){
+        status = 'Game over! You are in checkmate!, Good try..' + moveColor + ' is in checkmate.';
+        } else {
+           status = 'Congratulations!! You won!' + moveColor + ' is in checkmate.';
+        }
       }
 
       // draw?
       else if (game.in_draw() === true) {
-        status = 'Game over, drawn position';
+        status = 'Game over!,Sorry, but no more moves are possible! ';
       }
 
       // game still on
       else {
         status = moveColor + ' to move';
+        if(moveColor == color){
+          status += "Your turn!"
+        } else {
+          status += "Wait for your oponent's move"
+        }
+        
 
         // check?
         if (game.in_check() === true) {
-          status += ', ' + moveColor + ' is in check';
+          if(color == moveColor){
+            status += ', You are in check! ' + moveColor + ' is in check';
+          } else {
+            status += 'You checked your oponent';
+          }
+          
         }
       }
 

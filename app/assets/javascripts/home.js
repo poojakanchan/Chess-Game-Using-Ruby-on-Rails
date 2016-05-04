@@ -63,7 +63,7 @@ $(document).ready( function() {
                 console.log(response)
                   
                    if(response.redirect) {
-                    window.location = response.redirectURL;
+                    window.location = response.redirectURL + "?user=" + response.user_id + "&color=" + response.color + "&game_id=" + response.game_id;
       }
             } );
        

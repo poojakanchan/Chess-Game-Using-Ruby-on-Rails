@@ -4,10 +4,13 @@
   <%= javascript_include_tag "chessboard-0.3.0.js" %>
   
 <% end %>
-
+<%= content_tag :div, class: "temp_information", 
+     data: {user: @user, color: @color, game: @game_id} do %>
+<% end %>
+<%= "game ID :" +  @game_id %>
 <div class="container container-center">
 <div class="row">
-  <div class=" col-lg-9 col-md-9 col-sm-9">
+  <div class=" col-lg-5 col-md-5 col-sm-5">
     
          <script src="/assets/chess.js"></script>
         <div id="board" style="width: 400px"></div>
@@ -15,7 +18,9 @@
         <p>FEN: <span id="fen"></span></p>
         <p>PGN: <span id="pgn"></span></p>
       </div>
-  
+  <div class=" col-lg-4 col-md-4 col-sm-4">
+       <button type="button" id = "quit" class="btn btn-warning" style="background: #540f2a;">QUIT</button>
+      </div>
 
   <div class=" col-lg-3 col-md-3 col-sm-3">
     <div class="chat-box-div">
