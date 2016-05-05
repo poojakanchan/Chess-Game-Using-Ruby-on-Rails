@@ -17,10 +17,7 @@ class GamesController < ApplicationController
     end
   end
 
-  def join
-
-
-   end 
+  
 
   # GET /games/new
   def new
@@ -76,7 +73,9 @@ class GamesController < ApplicationController
     secret: ENV['PUSHER_SECRET'],
     encrypted: true
   )
- 
+   @source = params[:source]
+    @target = params[:target]
+   
   if(params.has_key?(:status))
           @game = Game.find(params[:game_id])
        if(params[:status] == "checkmate") 
@@ -87,26 +86,30 @@ class GamesController < ApplicationController
             end
             
             @stat = current_user.statistic
-            @oponent_stat = User.find(@oponent_id).statistic
+            @oponent = User.find(@oponent_id)
+            @oponent_stat = @oponent.statistic
             if(params[:winner] == "yes")               
                 @stat.wins = @stat.wins + 1
-                @oponent_stat.loses = @oponent_stat.loses +1
+                @oponent_stat.loses = @oponent_stat.loses + 1
             else
                 @stat.loses = @stat.loses + 1
-                @oponent_stat.wins = @oponent_stat.wins +1
+                @oponent_stat.wins = @oponent_stat.wins + 1
             end
             @stat.save
             @oponent_stat.save
             @game.destroy
        elsif (params[:status] == "draw")
-          @game.destroy            
+            @game.destroy            
         end
+       elsif (params[:status] == "quit")
+           @source = -1
+           @target = -1
         
     end 
 
   pusher_client.trigger('chess', 'move', {
-    source: params[:source],
-    target: params[:target],
+    source: @source,
+    target: @target,
     piece: params[:piece],
     newposition: params[:newposition]
     #timestamp: @timestamp

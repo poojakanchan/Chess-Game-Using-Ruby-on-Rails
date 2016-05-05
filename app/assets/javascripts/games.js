@@ -14,7 +14,23 @@ var add_message = function( message ) {
     $("div#message").append( pretty_message );
 }
 
+var addReturnButton = function() {
+    $("button#quit").remove();
+    var content = '<br><br><button type="button" id = "return"' +
+    ' class="btn btn-warning" style="background: #540f2a;">RETURN TO LOBBY</button>';
+    $("div#buttons").append(content);
+     $('button#return').click( function() {
+      console.log('return pressed');
+           window.location = '/home/index'; 
 
+     });
+       
+}
+
+var handleQuit = function() {
+   
+
+}
 $(document).ready( function() {
   // load chess board
 
@@ -58,11 +74,6 @@ $(document).ready( function() {
       };
     });
 
-    $('button#quit').click( function() {
-       // $('#quit').confirmation('show');
-
-     });
-
    console.log( 'Games DOM LOADED' );
 
      var socket_id = null;
@@ -75,10 +86,15 @@ $(document).ready( function() {
       console.log(data.piece);
       console.log(data.target);
 
+      if(data.source === -1 && data.target === -1){
+        handleQuit();
+      }
+
       var target = data.target;
       var piece = "'" + data.piece + "'";
       var location_string = data.source + "-" + target;
 
+      
       board.move(location_string);
       var move = game.move({
         from: data.source,
@@ -134,10 +150,11 @@ $(document).ready( function() {
             if (game.in_checkmate() === true) {
               status = "checkmate";
                  if(color == moveColor){
-                    winner = "yes";
+                    winner = "no";
                   } else {
-                winner = "no";
+                winner = "yes";
                }
+               
             }
           else if (game.in_draw() === true) {
             status = "draw";
@@ -188,6 +205,7 @@ $(document).ready( function() {
         } else {
            status = 'Congratulations!! You won!' + moveColor + ' is in checkmate.';
         }
+        addReturnButton();
       }
 
       // draw?
@@ -221,6 +239,19 @@ $(document).ready( function() {
       pgnEl.html(game.pgn());
     };
 
+
+
+  $('#quit').on('click', function(e){
+
+    var $form=$(this).closest('form'); 
+    e.preventDefault();
+
+    $('#confirm').modal({ backdrop: 'static', keyboard: false })
+        .one('click', '#delete', function() {
+            $form.trigger('submit'); // submit the form
+        });
+        // .one() is NOT a typo of .on()
+  });
     console.log('Loadng game');
     var cfg = {
       draggable: true,
