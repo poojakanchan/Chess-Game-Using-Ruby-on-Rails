@@ -11,9 +11,8 @@ body {
      
      background: url('chess.jpg');
      background-size: 7440px 800px;
-     position: absolute;
-     top: 80px;
      
+
      }
 
     #logo {
@@ -24,11 +23,13 @@ body {
 
      #widewrapper {
      width:100%;
+   
      }
 
      .main-image { 
    position: relative; 
    width: 100%; /* for IE 6 */
+
 }
 
 .main-image h2 { 
@@ -37,4 +38,6 @@ body {
    left: 0; 
    width: 100%; 
 }
+
+
 
