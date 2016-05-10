@@ -4,14 +4,14 @@ class ChatController < ApplicationController
   def message    
     logger.error params
 
-    pusher_client.trigger('public-chat', 'message-sent', message )
+    pusher_client.trigger('public-chat', 'message-sent', get_message )
 
  	  render :json => @msg, status: :ok
   end
 
   private
 
-  def message 
+  def get_message 
     @message ||= {
       name: current_user.name,
       message: params[:message],
