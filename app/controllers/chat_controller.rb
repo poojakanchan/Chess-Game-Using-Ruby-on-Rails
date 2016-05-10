@@ -17,6 +17,8 @@ class ChatController < ApplicationController
     secret: ENV['PUSHER_SECRET'],
     encrypted: true
   )
+     logger.error params
+     
   pusher_client.trigger('public-chat', 'message-sent', {
     name: current_user.name,
     message: params[:message],
