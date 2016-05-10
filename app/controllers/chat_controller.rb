@@ -1,39 +1,33 @@
 require 'pusher'
 
 class ChatController < ApplicationController
-  def message 
- 
-   
-   
-  @timestamp = Time.now().strftime("%d/%m/%Y %H:%M")
-  @msg = {
-    "name" => current_user.name,
-     "message" => params[:message], 
-     "timestamp" => @timestamp
-   }
-     pusher_client = Pusher::Client.new(
-    app_id: ENV['PUSHER_APP_ID'],
-    key: ENV['PUSHER_KEY'],
-    secret: ENV['PUSHER_SECRET'],
-    encrypted: true
-  )
-     logger.error params
-     
-  pusher_client.trigger('public-chat', 'message-sent', {
-    name: current_user.name,
-    message: params[:message],
-    timestamp: @timestamp
-  })
+  def message    
+    logger.error params
 
-  #Pusher.trigger('test_channel', 'my_event', {
-   #   message: 'hello world'
-   # })
-    
-  #respond_to :js
+    pusher_client.trigger('public-chat', 'message-sent', message )
+
  	  render :json => @msg, status: :ok
-		
+  end
+
+  private
+
+  def message 
+    @message ||= {
+      name: current_user.name,
+      message: params[:message],
+      timestamp: Time.now().strftime("%d/%m/%Y %H:%M")
+    }
   end
  
+  def pusher_client
+    @pusher_client ||= Pusher::Client.new(
+      app_id: ENV['PUSHER_APP_ID'],
+      key: ENV['PUSHER_KEY'],
+      secret: ENV['PUSHER_SECRET'],
+      encrypted: true
+    )
+  end
+
 end
 
 
