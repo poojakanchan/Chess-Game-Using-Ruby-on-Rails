@@ -250,8 +250,13 @@ $(document).ready( function() {
     // only pick up pieces for the side to move
     var onDragStart = function(source, piece, position, orientation) {
       if (game.game_over() === true ||
+          (piece.search(/^b/) !== -1 && color == 'white') ||
+          (piece.search(/^w/) !== -1 && color == 'black') ||
           (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
           (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+        console.log(color);
+        console.log(game.turn());
+        console.log(piece);
         return false;
       }
     };
