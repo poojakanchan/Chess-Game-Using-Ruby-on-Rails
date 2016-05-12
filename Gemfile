@@ -7,6 +7,7 @@ gem 'rails_12factor'
 gem 'twitter'
 
 gem 'bootstrap-sass'
+gem 'koala'
 gem 'bootstrap_form'
 gem 'autoprefixer-rails'
 gem 'devise'

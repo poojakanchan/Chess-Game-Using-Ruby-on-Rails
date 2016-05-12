@@ -7,7 +7,8 @@ Pusher.secret = 'f79de19f07eb7cd9140c'
 Pusher.logger = Rails.logger
 Pusher.encrypted = true
    def index
-     
+    
+
         @games = Game.where(user_black_id: nil)
       if current_user && current_user.statistic
           @current_user = current_user
@@ -26,4 +27,6 @@ Pusher.encrypted = true
   def title
     
   end
+
+  
 end

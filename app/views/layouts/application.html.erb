@@ -12,6 +12,35 @@
     var pusher = new Pusher('d94977f59572dace0f57', {
         encrypted: true
       });
+   window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1141934612512912',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+  $('#fb-share-button').click(function() {
+    FB.ui({
+          method: 'feed',
+          link: "The link you want to share", 
+          picture: 'The picture url',
+          name: "The name who will be displayed on the post",
+          description: "The description who will be displayed"
+        }, function(response){
+            console.log(response);
+        }
+    );
+});
+
  </script>
 
 
@@ -39,6 +68,7 @@
     <!-- Size should be 32 x 32 pixels -->
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
+    
     <%= javascript_include_tag "application" %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -68,8 +98,17 @@
                 </ul>
               </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <% if user_signed_in? %>
+            <li>
+
+            <div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+
+</li>
+<% if user_signed_in? %>
   <li>
   <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
   </li>

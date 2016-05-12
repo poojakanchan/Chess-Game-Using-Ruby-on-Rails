@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :pieces
  # devise_for :users
  
+
    post 'chat/message' => 'chat#message'
    post 'games/move'  => 'games#move'
 
