@@ -78,83 +78,50 @@
 
     <%= yield :javascript_includes %>
 
-  </head>
-  <body>
-
-          <!-- Static navbar -->
+    </head>
+    <body>
+        <!-- Static navbar -->
       <nav class="navbar navbar-default navbar-fixed-top" role = "navigation">
         <div class="container">
-          <div class="navbar-header">
-            
-            <a class="navbar-brand"><span><img id="logo" src="/assets/black-2.png"></span>
-            ChessMaster</a>
-
-
+          <div class="navbar-header">       
+            <a class="navbar-brand">
+              <span><img id="logo" src="/assets/black-2.png"></span>
+              ChessMaster
+            </a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-             
-              
-                </ul>
+             <li>
+                <div class="fb-like" data-share="true" data-width="450" 
+                data-show-faces="true">
+                </div>
               </li>
+              <% if user_signed_in? %>
+                <li>
+                <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>  </li>
+              <% else %>
+                <li>
+                  <%= link_to('Login', new_user_session_path) %>  
+                </li>
+              <% end %>
             </ul>
-            <li>
-
-            <div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
-
-</li>
-<% if user_signed_in? %>
-  <li>
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
-  </li>
-<% else %>
-
-  <li>
-  <%= link_to('Login', new_user_session_path) %>  
-  </li>
-<% end %>
-          
-
-           
-        
-            </ul>
-          </div><!--/.nav-collapse -->
+         
+           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
-
-
-
-
-
-
-
     <div class="container">
       <div class="row">
-
-       
           <%= bootstrap_flash %>
           <%= yield %>
-       
-      
       </div><!--/row-->
 
-
-
-
-
-  <div class="col-md-2"></div>
-  <div class="col-md-10">
-      <footer>
-        <p>&copy; Company 2016</p>
-      </footer>
-
-       </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-10">
+        <footer>
+          <p>&copy; Company 2016</p>
+        </footer>
+      </div>
 
     </div> <!-- /container -->
 

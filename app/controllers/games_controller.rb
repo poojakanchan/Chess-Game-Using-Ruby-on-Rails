@@ -27,12 +27,7 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-     pusher_client = Pusher::Client.new(
-    app_id: ENV['PUSHER_APP_ID'],
-    key: ENV['PUSHER_KEY'],
-    secret: ENV['PUSHER_SECRET'],
-    encrypted: true
-    )
+    
    
     @game = Game.new
     @game.user_white_id = current_user.id.to_i
@@ -66,16 +61,15 @@ class GamesController < ApplicationController
 
 
  def move 
- 
-    pusher_client = Pusher::Client.new(
-    app_id: ENV['PUSHER_APP_ID'],
-    key: ENV['PUSHER_KEY'],
-    secret: ENV['PUSHER_SECRET'],
-    encrypted: true
-  )
-   @source = params[:source]
-    @target = params[:target]
-   
+  pusher_client.trigger('chess', 'move', {
+    source: params[:source],
+    target: params[:target],
+    piece: params[:piece],
+    newposition: params[:newposition]
+  }, {
+     socket_id: params[:socket_id]
+    })
+  
   if(params.has_key?(:status))
           @game = Game.find(params[:game_id])
        if(params[:status] == "checkmate") 
@@ -98,32 +92,28 @@ class GamesController < ApplicationController
             @stat.save
             @oponent_stat.save
             @game.destroy
+              
        elsif (params[:status] == "draw")
             @game.destroy            
-        end
-       elsif (params[:status] == "quit")
-           @source = -1
-           @target = -1
         
+       elsif (params[:status] == "quit")
+           @game.destroy
+           
+        end 
     end 
-
-  pusher_client.trigger('chess', 'move', {
-    source: @source,
-    target: @target,
-    piece: params[:piece],
-    newposition: params[:newposition]
-    #timestamp: @timestamp
-  })
-
-  #Pusher.trigger('test_channel', 'my_event', {
-   #   message: 'hello world'
-   # })
-    
-  respond_to :js
+   respond_to :js
+  
     #render :json , status: :ok
 end
 
-
+ def  pusher_client 
+  Pusher::Client.new(
+    app_id: ENV['PUSHER_APP_ID'],
+    key: ENV['PUSHER_KEY'],
+    secret: ENV['PUSHER_SECRET'],
+    encrypted: true
+    )
+ end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_game

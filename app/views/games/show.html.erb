@@ -15,35 +15,11 @@
          <script src="/assets/chess.js"></script>
         <div id="board" style="width: 400px"></div>
         <p color="#0a79b6" font-size='14'>Status: <span id="status"></span></p>
-        <p>FEN: <span id="fen"></span></p>
-        <p>PGN: <span id="pgn"></span></p>
       </div>
 
       <div id = "buttons" class=" col-lg-4 col-md-4 col-sm-4">
-      <form action ="/games/move?status=quit" method="POST">
-       <button type="submit" id = "quit" class="btn btn-warning" style="background: #540f2a;" value="quit">QUIT</button>
-      </form>
-      
-     <div id="confirm" class="modal hide fade">
-       <div class="modal-body">
-         Are you sure you want to quit?
-       </div>
-       <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete">Yes</button>
-       <button type="button" data-dismiss="modal" class="btn">Cancel</button>
-      </div>
-     </div>
+        <button type="submit" id = "quit" class="btn btn-warning" style="background: #540f2a;" value="quit">QUIT</button>
     </div>
-
-<div id="user_left" class="modal hide fade">
-     <div class="modal-body">
-       Your oponent has left the game, returing to main lobby
-     </div>
-     <div class="modal-footer">
-      <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete">OK</button>
-     <button type="button" data-dismiss="modal" class="btn">Cancel</button>
-    </div>
-   </div>
 
   <div class=" col-lg-3 col-md-3 col-sm-3">
     <div class="chat-box-div">

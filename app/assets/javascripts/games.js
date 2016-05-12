@@ -27,33 +27,29 @@ var addReturnButton = function() {
        
 }
 
-var handleQuit = function() {
-   
+var handleQuit = function(game_id,socket_id) {
+   var URI = '/games/move';
+ var payload = {
+                source: -1,
+                target: -1,
+                status: "quit",
+                piece: -1,
+                newposition: -1,
+                game_id: game_id,
+                socket_id: socket_id
+             };
 
+             console.log(payload);
+
+      $.post( URI, payload,function(response){
+                 window.location = "/home/index";
+                // add_message(response);
+            });
+       
 }
-$(document).ready( function() {
-  // load chess board
 
-  user = $('.temp_information').data('user');
-  color = $('.temp_information').data('color');
-   game_id = $('.temp_information').data('game');
-
-  console.log("user is " + user);
-  console.log("color is " + color);
-  console.log("game id " + game_id);
-  
-   var socket_id = null;
-   pusher.connection.bind('connected', function () {
-   socket_id = pusher.connection.socket_id;
-   });
-  var channel = pusher.subscribe('public-chat');
- channel.bind('message-sent', function(data) {
-      add_message(data);
-    });
-
-       // when chat button is pressed.
-       $('button#send').click( function() {
-          console.log( 'Button clicked' );
+var send_message = function() {
+  console.log( 'Button clicked' );
             if ( !input_is_empty() ) {
             var URI = '/chat/message';
             var message = $('input#chatbox').val();
@@ -72,22 +68,18 @@ $(document).ready( function() {
             $('input#chatbox').val('');
 
       };
-    });
 
-   console.log( 'Games DOM LOADED' );
+}
 
-     var socket_id = null;
-       pusher.connection.bind('connected', function () {
-       socket_id = pusher.connection.socket_id;
-       });
-     var channel = pusher.subscribe('chess');
-     channel.bind('move', function(data) {
-      console.log('received data ');
-      console.log(data.piece);
+var move_piece = function(data,board,game) {
+console.log('received data ');
+      console.log(data.source);
       console.log(data.target);
 
-      if(data.source === -1 && data.target === -1){
-        handleQuit();
+      if(data.source == -1 || data.target == -1){
+        console.log('quit!!');
+       alert("Sorry, unfortunately your oponent left the game!");
+       window.location = '/home/index'; 
       }
 
       var target = data.target;
@@ -104,30 +96,12 @@ $(document).ready( function() {
       console.log(move);
       if (move === null) return 'snapback';
 
-      updateStatus();
+      updateStatus(game);
 
-    });
+}
 
-    var board,
-    game = new Chess(),
-    statusEl = $('#status'),
-    fenEl = $('#fen'),
-    pgnEl = $('#pgn');
-
-    // do not pick up pieces if the game is over
-    // only pick up pieces for the side to move
-    var onDragStart = function(source, piece, position, orientation) {
-      if (game.game_over() === true ||
-          (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-          (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-        return false;
-      }
-    };
-
-
-
-    var onDrop = function(source, target) {
-      // see if the move is legal
+var handleOnDrop = function(game,source, target,socket_id) {
+ // see if the move is legal
       var move = game.move({
         from: source,
         to: target,
@@ -181,16 +155,12 @@ $(document).ready( function() {
 
                 // add_message(response);
             });
-      updateStatus();
-    };
+      updateStatus(game);
 
-    // update the board position after the piece snap 
-    // for castling, en passant, pawn promotion
-    var onSnapEnd = function() {
-      board.position(game.fen());
-    };
+}
 
-    var updateStatus = function() {
+
+ var updateStatus = function(game) {
       var status = '';
 
       var moveColor = 'white';
@@ -234,22 +204,74 @@ $(document).ready( function() {
         }
       }
 
-      statusEl.html(status);
-      fenEl.html(game.fen());
-      pgnEl.html(game.pgn());
+      $('#status').html(status);
+    //  fenEl.html(game.fen());
+    //  pgnEl.html(game.pgn());
     };
 
 
+$(document).ready( function() {
+  // load chess board
 
+  user = $('.temp_information').data('user');
+  color = $('.temp_information').data('color');
+   game_id = $('.temp_information').data('game');
+
+  console.log("user is " + user);
+  console.log("color is " + color);
+  console.log("game id " + game_id);
+  
+   var socket_id = null;
+   pusher.connection.bind('connected', function () {
+     socket_id = pusher.connection.socket_id;
+   });
+   var channel = pusher.subscribe('public-chat');
+    channel.bind('message-sent', function(data) {
+      add_message(data);
+    });
+    var channel = pusher.subscribe('chess');
+     channel.bind('move', function(data) {
+      move_piece(data,board,game);
+
+    });
+       // when chat button is pressed.
+       $('button#send').click( function() {
+         send_message();    
+      });
+
+   console.log( 'Games DOM LOADED' );
+
+  
+    var board,
+    game = new Chess(),
+    statusEl = $('#status');
+
+    // do not pick up pieces if the game is over
+    // only pick up pieces for the side to move
+    var onDragStart = function(source, piece, position, orientation) {
+      if (game.game_over() === true ||
+          (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+          (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+        return false;
+      }
+    };
+
+    var onDrop = function(source, target) {
+       handleOnDrop(game,source,target,socket_id);
+    };
+
+    // update the board position after the piece snap 
+    // for castling, en passant, pawn promotion
+    var onSnapEnd = function() {
+      board.position(game.fen());
+    };
+   
   $('#quit').on('click', function(e){
 
-    var $form=$(this).closest('form'); 
-    e.preventDefault();
-
-    $('#confirm').modal({ backdrop: 'static', keyboard: false })
-        .one('click', '#delete', function() {
-            $form.trigger('submit'); // submit the form
-        });
+   var r = confirm("Are you sure you want to quit?");
+   if (r == true) {
+     handleQuit(game_id,socket_id);
+    } 
         // .one() is NOT a typo of .on()
   });
     console.log('Loadng game');
@@ -263,7 +285,7 @@ $(document).ready( function() {
     board = ChessBoard('board', cfg);
     //var board2 = ChessBoard('board2', cfg);
 
-    updateStatus();
+    updateStatus(game);
         
 });
 

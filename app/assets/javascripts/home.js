@@ -24,6 +24,7 @@ $(document).ready( function() {
    });
   var channel = pusher.subscribe('public-chat');
  channel.bind('message-sent', function(data) {
+  
       add_message(data);
     });
 
