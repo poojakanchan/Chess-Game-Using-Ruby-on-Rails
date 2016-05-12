@@ -5,7 +5,7 @@
   
 <% end %>
 <%= content_tag :div, class: "temp_information", 
-     data: {user: @user, color: @color, game: @game_id} do %>
+     data: {user: @user, color: @color, game: @game_id, fen_string: @fen_string} do %>
 <% end %>
 <%= "game ID :" +  @game_id %>
 <div class="container container-center " style="margin-top: 70px;">

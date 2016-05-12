@@ -142,11 +142,13 @@ var handleOnDrop = function(game,source, target,socket_id) {
                 source: move.from,
                 target: move.to,
                 piece: move.piece,
-                newposition: ChessBoard.objToFen(move.to),
+                //newposition: ChessBoard.objToFen(move.to),
+                newposition: game.fen(),
                 socket_id: socket_id,
                 status: status,
                 winner: winner,
                 game_id: game_id
+
              };
 
              console.log(payload);
@@ -185,7 +187,7 @@ var handleOnDrop = function(game,source, target,socket_id) {
 
       // game still on
       else {
-        status = moveColor + ' to move';
+        status = moveColor + ' to move. ';
         if(moveColor == color){
           status += "Your turn!"
         } else {
@@ -216,10 +218,12 @@ $(document).ready( function() {
   user = $('.temp_information').data('user');
   color = $('.temp_information').data('color');
    game_id = $('.temp_information').data('game');
+   fen_string = $('.temp_information').data('fen-string');
 
   console.log("user is " + user);
   console.log("color is " + color);
   console.log("game id " + game_id);
+  console.log("fen string " + fen_string);
   
    var socket_id = null;
    pusher.connection.bind('connected', function () {
@@ -242,9 +246,12 @@ $(document).ready( function() {
    console.log( 'Games DOM LOADED' );
 
   
-    var board,
-    game = new Chess(),
-    statusEl = $('#status');
+    var board, statusEl = $('#status');
+    if(fen_string == "start")
+      var game = new Chess();
+    else
+      var game = new Chess(fen_string);
+    
 
     // do not pick up pieces if the game is over
     // only pick up pieces for the side to move
@@ -282,7 +289,7 @@ $(document).ready( function() {
     console.log('Loadng game');
     var cfg = {
       draggable: true,
-      position: 'start',
+      position: fen_string,
       onDragStart: onDragStart,
       onDrop: onDrop,
       onSnapEnd: onSnapEnd

@@ -8,9 +8,12 @@ class GamesController < ApplicationController
       @user =  params[:user]
       @color = params[:color]
       @game_id = params[:game_id]
+      @game = Game.find(@game_id)
+      @fen_string = @game.fen_string
       puts @game_id
+      puts @fen_string
       if(params[:color] == "black")
-           @game = Game.find(@game_id)
+          # @game = Game.find(@game_id)
           @game.user_black_id = @user
           @game.save
        end
@@ -42,6 +45,7 @@ class GamesController < ApplicationController
         "color"  => "white",
         "user_id" => current_user.id,
         "game_id" => @game.id,
+        "fen_string" => @game.fen_string,
        "redirect" => true,
        "redirectURL" => '/games/' + @game.id.to_s
       }
@@ -69,9 +73,11 @@ class GamesController < ApplicationController
   }, {
      socket_id: params[:socket_id]
     })
-  
+  @game = Game.find(params[:game_id])
+  @game.fen_string = params[:newposition]
+  @game.save
   if(params.has_key?(:status))
-          @game = Game.find(params[:game_id])
+          #@game = Game.find(params[:game_id])
        if(params[:status] == "checkmate") 
             if(@game.user_white_id == current_user.id)
                 @oponent_id = @game.user_black_id
