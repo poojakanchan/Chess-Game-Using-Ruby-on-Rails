@@ -11,19 +11,20 @@
     </ul> <!-- End tab -->
 
     <div class="tab-content">
+    <br><br>
       <div id="statistics" class="tab-pane fade in active">
         <% if(params.has_key?(:statistics)) %>
         <table class="table" id="stat_table">
           <tbody>
-            <tr>
-              <td> Total Games </td>
+            <tr style="background: #009933;color:white;font-size: 40px;">
+              <td > Total Games </td>
               <td> <%= params[:statistics].wins + params[:statistics].loses %> </td>
             </tr>
-            <tr>
+            <tr style="background: #ffe6e6">
               <td> No of games won </td>
               <td> <%= params[:statistics].wins %> </td>
             </tr>
-            <tr>
+            <tr style="background: #ffe6e6">
               <td> No of games lost </td>
               <td> <%= params[:statistics].loses %> </td>
             </tr>
@@ -32,18 +33,22 @@
         <% end %>
       </div>
 
-      <div id="game" class="tab-pane fade" data-toggle="tab">
-        <button class="btn btn-info" type="button" id="create">Create</button>
 
+      <div id="game" class="tab-pane fade" data-toggle="tab">
+        <br> <br>
+        <button class="btn btn-info" type="button" id="create" style="margin:auto;">Start a New Game </button>
+
+         <br><br>
+         <h2>OR<h2>
          <table class="table">  
        
         <% @games.each do |game| 
            @user = User.find(game.user_white_id)
            @url = '/games/' + game.id.to_s %>
       <tr>
-        <td><%= game.user_white_id  %></td>
-        <td><%= @user.name  %></td>
-      <td> <%= link_to 'Join',{:controller => "games", :action => 'show', :id => game.id.to_s,:user => @current_user.id,:game_id => game.id.to_s,:color => 
+        <td><%= game.id %></td>
+        <td><%= @user.email  %></td>
+      <td> <%= link_to 'Join Game',{:controller => "games", :action => 'show', :id => game.id.to_s,:user => @current_user.id,:game_id => game.id.to_s,:color => 
         "black" }, class: "btn btn-primary", method:'GET' %></td>
          </tr>
          <% end %>
@@ -56,7 +61,7 @@
   <div class=" col-lg-3 col-md-3 col-sm-3">
     <div class="chat-box-div">
       <div class="chat-box-head">
-        GROUP CHAT HISTORY
+        GROUP CHAT
       </div>
       <div class="panel-body chat-box-main">
         <div id="message">

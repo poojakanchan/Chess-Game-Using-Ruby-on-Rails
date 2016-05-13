@@ -13,7 +13,7 @@ class ChatController < ApplicationController
 
   def get_message 
     @message ||= {
-      name: current_user.name,
+      name: current_user.email,
       message: params[:message],
       timestamp: Time.now().strftime("%d/%m/%Y %H:%M")
     }

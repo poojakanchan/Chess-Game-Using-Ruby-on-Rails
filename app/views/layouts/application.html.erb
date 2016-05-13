@@ -84,54 +84,28 @@
       <nav class="navbar navbar-default navbar-fixed-top" role = "navigation">
         <div class="container">
           <div class="navbar-header">       
-            <a class="navbar-brand">
+            <a  class="navbar-brand">
               <span><img id="logo" src="/assets/black-2.png"></span>
-              ChessMaster
+              ChessMaster 
             </a>
           </div>
-         <div id="navbar" class="navbar-collapse collapse navbar-right" >
-            <ul class="nav navbar-nav">
-             
-          
-            <li style="margin-top:20px;"
-
-           
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-
-
-</li>
-<% if user_signed_in? %>
-
-
- 
-
-
-
-  <li>
-  
-
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete)  %> 
- 
-
-  </li>
-    <li style="margin-left:-150px;">
-  
- 
-   <%=   current_user.email %>
-
-  </li>
-<% else %>
-
-  <li>
-  <%= link_to('Login', new_user_session_path) %> 
- 
-  </li>
-<% end %>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+             <li>
+                <div class="fb-like" data-share="true" data-width="450" 
+                data-show-faces="true">
+                </div>
+              </li>
+              <% if user_signed_in? %>
+                <li style="float: right">
+                <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>  </li>
+              <% else %>
+                <li style="float: right">
+                  <%= link_to('Login', new_user_session_path) %>  
+                </li>
+              <% end %>
             </ul>
-         
+          
            </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
@@ -145,8 +119,7 @@
       <div class="col-md-2"></div>
       <div class="col-md-10">
         <footer>
-
-          <p>&copy; Company 2016</p>
+          <p style="font-size: 15px;">&copy; SFSU-2016 </p>
         </footer>
       </div>
 

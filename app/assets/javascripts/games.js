@@ -286,7 +286,7 @@ $(document).ready( function() {
     } 
         // .one() is NOT a typo of .on()
   });
-    console.log('Loadng game');
+    console.log('Loading game');
     var cfg = {
       draggable: true,
       position: fen_string,
