@@ -89,21 +89,30 @@
               ChessMaster
             </a>
           </div>
-          <div id="navbar" class="navbar-collapse collapse">
+         <div id="navbar" class="navbar-collapse collapse navbar-right" >
             <ul class="nav navbar-nav">
-             <li>
-                <div class="fb-like" data-share="true" data-width="450" 
-                data-show-faces="true">
-                </div>
-              </li>
-              <% if user_signed_in? %>
-                <li>
-                <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>  </li>
-              <% else %>
-                <li>
-                  <%= link_to('Login', new_user_session_path) %>  
-                </li>
-              <% end %>
+             
+          
+            <li style="margin-top:20px;"
+
+           
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+
+
+</li>
+<% if user_signed_in? %>
+  <li>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+  </li>
+<% else %>
+
+  <li>
+  <%= link_to('Login', new_user_session_path) %>  
+  </li>
+<% end %>
             </ul>
          
            </div><!--/.nav-collapse -->
