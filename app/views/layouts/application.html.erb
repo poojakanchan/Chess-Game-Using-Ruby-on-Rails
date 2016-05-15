@@ -30,11 +30,11 @@
 
   $('#fb-share-button').click(function() {
     FB.ui({
-          method: 'feed',
-          link: "https://obscure-citadel-83413.herokuapp.com/", 
-          picture: '/assets/black-2.png',
-          name: "ChessMaster",
-          description: "Real time Chess application!"
+        method: 'feed',
+        link: "https://obscure-citadel-83413.herokuapp.com/", 
+        picture: 'https://drive.google.com/open?id=0BxEjTmepUS1CMGhxX0tPaERMOUE',
+        name: "ChessMaster",
+        description: "Real time Chess application!"
         }, function(response){
             console.log(response);
         }
