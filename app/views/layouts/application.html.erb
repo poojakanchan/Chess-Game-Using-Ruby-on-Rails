@@ -26,15 +26,15 @@
      js = d.createElement(s); js.id = id;
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+   }(document, 'script', '  facebook-jssdk'));
 
   $('#fb-share-button').click(function() {
     FB.ui({
           method: 'feed',
-          link: "The link you want to share", 
-          picture: 'The picture url',
-          name: "The name who will be displayed on the post",
-          description: "The description who will be displayed"
+          link: "https://obscure-citadel-83413.herokuapp.com/", 
+          picture: '/assets/black-2.png',
+          name: "ChessMaster",
+          description: "Real time Chess application!"
         }, function(response){
             console.log(response);
         }

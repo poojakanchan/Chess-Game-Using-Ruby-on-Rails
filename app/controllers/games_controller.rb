@@ -8,6 +8,7 @@ class GamesController < ApplicationController
       @user =  params[:user]
       @color = params[:color]
       @game_id = params[:game_id]
+      logger.error(@game_id)
       @game = Game.find(@game_id)
       @fen_string = @game.fen_string
       puts @game_id
