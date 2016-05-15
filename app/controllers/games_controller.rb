@@ -20,8 +20,6 @@ class GamesController < ApplicationController
     end
   end
 
-  
-
   # GET /games/new
   def new
     @game = Game.new
@@ -30,8 +28,6 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    
-   
     @game = Game.new
     @game.user_white_id = current_user.id.to_i
     @game.save
@@ -62,7 +58,11 @@ class GamesController < ApplicationController
     end
   end
 
-
+  def save_move(id, position)
+   @game = Game.find(id)
+   @game.fen_string = position
+   @game.save
+  end
 
  def move 
   pusher_client.trigger('chess', 'move', {
@@ -73,32 +73,13 @@ class GamesController < ApplicationController
   }, {
      socket_id: params[:socket_id]
     })
-  @game = Game.find(params[:game_id])
-  @game.fen_string = params[:newposition]
-  @game.save
+
+ save_move(params[:game_id],params[:newposition])
+ 
   if(params.has_key?(:status))
           #@game = Game.find(params[:game_id])
        if(params[:status] == "checkmate") 
-            if(@game.user_white_id == current_user.id)
-                @oponent_id = @game.user_black_id
-             else
-              @oponent_id = @game.user_white_id
-            end
-            
-            @stat = current_user.statistic
-            @oponent = User.find(@oponent_id)
-            @oponent_stat = @oponent.statistic
-            if(params[:winner] == "yes")               
-                @stat.wins = @stat.wins + 1
-                @oponent_stat.loses = @oponent_stat.loses + 1
-            else
-                @stat.loses = @stat.loses + 1
-                @oponent_stat.wins = @oponent_stat.wins + 1
-            end
-            @stat.save
-            @oponent_stat.save
-            @game.destroy
-              
+           handle_checkmate(params[:winner])
        elsif (params[:status] == "draw")
             @game.destroy            
         
@@ -112,6 +93,29 @@ class GamesController < ApplicationController
     #render :json , status: :ok
 end
 
+ def handle_checkmate(winner)
+    if(@game.user_white_id == current_user.id)
+      oponent_id = @game.user_black_id
+    else
+       oponent_id = @game.user_white_id
+    end
+    puts "oponent ID *****"
+    puts oponent_id        
+    stat = current_user.statistic
+    oponent = User.find(oponent_id)
+    oponent_stat = oponent.statistic
+    if(winner == "yes")               
+       stat.wins = stat.wins + 1
+       oponent_stat.loses = oponent_stat.loses + 1
+    else
+       stat.loses = stat.loses + 1
+       oponent_stat.wins = oponent_stat.wins + 1
+    end
+    stat.save
+    oponent_stat.save
+    @game.destroy
+ end
+ 
  def  pusher_client 
   Pusher::Client.new(
     app_id: ENV['PUSHER_APP_ID'],

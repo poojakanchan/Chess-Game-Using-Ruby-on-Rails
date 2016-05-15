@@ -1,6 +1,7 @@
 require 'pusher'
 
 class ChatController < ApplicationController
+  # send message to pusher
   def message    
     logger.error params
 
@@ -11,6 +12,7 @@ class ChatController < ApplicationController
 
   private
 
+ # create a message
   def get_message 
     @message ||= {
       name: current_user.email,
@@ -19,6 +21,7 @@ class ChatController < ApplicationController
     }
   end
  
+ # get pusher client object
   def pusher_client
     @pusher_client ||= Pusher::Client.new(
       app_id: ENV['PUSHER_APP_ID'],

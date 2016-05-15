@@ -1,19 +1,22 @@
 
+// helpr method to check if input is empty
 var input_is_empty = function() {
     var value = $('input#chatbox').val();
     return _.isEmpty( value );
 }
+
+// appends message to chatbox
 var add_message = function( message ) {
   
     var content = '<div class="chat-box-left">' + message.message + '</div>' + 
                    '<div class="chat-box-name-left">' + message.name + ',' + message.timestamp + '</div>' + 
-                    '<hr class="hr-clas" />'
-    var pretty_message = $('<div></div>').
-    html(content);
+                    '<hr class="hr-clas" />';
+    var pretty_message = $('<div></div>').html(content);
 
     $("div#message").append( pretty_message );
 }
 
+// add return to lobby button
 var addReturnButton = function() {
     $("button#quit").remove();
     var content = '<br><br><button type="button" id = "return"' +
@@ -22,11 +25,11 @@ var addReturnButton = function() {
      $('button#return').click( function() {
       console.log('return pressed');
            window.location = '/home/index'; 
-
      });
        
 }
 
+// function to handle quit
 var handleQuit = function(game_id,socket_id) {
    var URI = '/games/move';
  var payload = {
@@ -48,11 +51,12 @@ var handleQuit = function(game_id,socket_id) {
        
 }
 
+// send message to controller 
 var send_message = function() {
   console.log( 'Button clicked' );
             if ( !input_is_empty() ) {
             var URI = '/chat/message';
-            var message = $('input#chatbox').val();
+            var message = $('input#chatbox').val(); // get message
             console.log(message);
             console.log(socket_id);
             var payload = {
@@ -60,7 +64,7 @@ var send_message = function() {
                // socket_id: socket_id
              };
            
-            $.post( URI, payload,function(response){
+            $.post( URI, payload,function(response){ // send message to controller
                 console.log(response)
                
             } );
@@ -71,23 +75,23 @@ var send_message = function() {
 
 }
 
+// function to handle move received from oponent
 var move_piece = function(data,board,game) {
 console.log('received data ');
       console.log(data.source);
       console.log(data.target);
 
-      if(data.source == -1 || data.target == -1){
+      if(data.source == -1 || data.target == -1){  // check if other player has quit
         console.log('quit!!');
        alert("Sorry, unfortunately your oponent left the game!");
-       window.location = '/home/index'; 
+       window.location = '/home/index';  // redirect to home page
       }
 
       var target = data.target;
       var piece = "'" + data.piece + "'";
       var location_string = data.source + "-" + target;
 
-      
-      board.move(location_string);
+      board.move(location_string);   // move the piece received form oponent
       var move = game.move({
         from: data.source,
         to: data.target,
@@ -96,10 +100,11 @@ console.log('received data ');
       console.log(move);
       if (move === null) return 'snapback';
 
-      updateStatus(game);
+      updateStatus(game); // update status
 
 }
 
+// handle the move: move piece on boar and send it to other player
 var handleOnDrop = function(game,source, target,socket_id) {
  // see if the move is legal
       var move = game.move({
@@ -107,61 +112,56 @@ var handleOnDrop = function(game,source, target,socket_id) {
         to: target,
         promotion: 'q' // NOTE: always promote to a queen for example simplicity
       });
-      if (move === null) return 'snapback';
+      if (move === null) return 'snapback'; // snapback for invalid move
       console.log(move);
-      // when chat button is pressed.
-          
+ 
         var moveColor = 'white';
           if (game.turn() === 'b') {
              moveColor = 'black';
         }
 
-            var status = null;
-            var winner = null;
-            var URI = '/games/move';
-            console.log(move.piece);
-            console.log(move.to);
-            if (game.in_checkmate() === true) {
-              status = "checkmate";
-                 if(color == moveColor){
-                    winner = "no";
-                  } else {
-                winner = "yes";
-               }
-               
+        var status = null;
+        var winner = null;
+        var URI = '/games/move';
+        console.log(move.piece);
+        console.log(move.to);
+        if (game.in_checkmate() === true) {  // check for checkmate
+           status = "checkmate";
+           if(color == moveColor){
+              winner = "no";
+            } else {
+              winner = "yes";
             }
-          else if (game.in_draw() === true) {
+               
+        } else if (game.in_draw() === true) {  // check for draw
             status = "draw";
-          }
-
-      // game still on
-      else {
+        }  else {                              // game still on
         status = "on";
         }
-            var payload = {
-                source: move.from,
-                target: move.to,
-                piece: move.piece,
-                //newposition: ChessBoard.objToFen(move.to),
-                newposition: game.fen(),
-                socket_id: socket_id,
-                status: status,
-                winner: winner,
-                game_id: game_id
+        var payload = {
+          source: move.from,
+          target: move.to,
+          piece: move.piece,
+          //newposition: ChessBoard.objToFen(move.to),
+          newposition: game.fen(),
+          socket_id: socket_id,
+          status: status,
+          winner: winner,
+          game_id: game_id
+        };
 
-             };
+      console.log(payload);
 
-             console.log(payload);
-
+      // send the move to controller to handle
       $.post( URI, payload,function(response){
-
+           console.log(response);
                 // add_message(response);
-            });
-      updateStatus(game);
+      });
+      updateStatus(game);                 // update the status
 
 }
 
-
+ // update the status
  var updateStatus = function(game) {
       var status = '';
 
@@ -173,9 +173,9 @@ var handleOnDrop = function(game,source, target,socket_id) {
       // checkmate?
       if (game.in_checkmate() === true) {
         if(color == moveColor){
-        status = 'Game over! You are in checkmate!, Good try..' + moveColor + ' is in checkmate.';
+        status = 'Game over! You are in checkmate!, Good try..';
         } else {
-           status = 'Congratulations!! You won!' + moveColor + ' is in checkmate.';
+           status = 'Congratulations!! You won!';
         }
         addReturnButton();
       }
@@ -211,7 +211,7 @@ var handleOnDrop = function(game,source, target,socket_id) {
     //  pgnEl.html(game.pgn());
     };
 
-
+// on page load
 $(document).ready( function() {
   // load chess board
 
@@ -229,11 +229,13 @@ $(document).ready( function() {
    pusher.connection.bind('connected', function () {
      socket_id = pusher.connection.socket_id;
    });
-   var channel = pusher.subscribe('public-chat');
+   // subscribe to public chat channel 
+   var channel = pusher.subscribe('public-chat');   
     channel.bind('message-sent', function(data) {
       add_message(data);
     });
-    var channel = pusher.subscribe('chess');
+    // subscribe to chess channel to get move updates from oponent
+    var channel = pusher.subscribe('chess'); 
      channel.bind('move', function(data) {
       move_piece(data,board,game);
 
@@ -248,7 +250,7 @@ $(document).ready( function() {
   
     var board, statusEl = $('#status');
     if(fen_string == "start")
-      var game = new Chess();
+      var game = new Chess(); 
     else
       var game = new Chess(fen_string);
     
@@ -278,6 +280,7 @@ $(document).ready( function() {
       board.position(game.fen());
     };
    
+   // when quit button is pressed
   $('#quit').on('click', function(e){
 
    var r = confirm("Are you sure you want to quit?");
