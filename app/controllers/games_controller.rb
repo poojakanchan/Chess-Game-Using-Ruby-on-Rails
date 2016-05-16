@@ -34,7 +34,7 @@ class GamesController < ApplicationController
     @game.save
     id = "game" + @game.id.to_s
 
-    pusher_client.trigger(id, 'create', {
+    pusher_client.trigger(id, 'move', {
     name: current_user.name
     })
 
@@ -66,7 +66,8 @@ class GamesController < ApplicationController
   end
 
  def move 
-  pusher_client.trigger('chess', 'move', {
+  id = "game" + params[:game_id].to_s
+  pusher_client.trigger(id, 'move', {
     source: params[:source],
     target: params[:target],
     piece: params[:piece],
