@@ -1,4 +1,4 @@
-== README
+# README
 
 This is a multi user real time web application: Chess game developed using Ruby on Rails.
 The game works as follows: 
@@ -10,7 +10,7 @@ The game works as follows:
 - Social media connectivity to Facebook is provided.
 Technologies Used: Ruby on Rails, PostGreSQL, Javascript, CSS, HTML
 
-=Steps to install the application:
+## Steps to install the application:
 1. Make sure you have Ruby on Rails and PostresSQL installed on your system
 1. Download code using git clone
 2. Run bundle install on project root directory.
