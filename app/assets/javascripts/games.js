@@ -58,10 +58,8 @@ var send_message = function() {
             var URI = '/chat/message';
             var message = $('input#chatbox').val(); // get message
             console.log(message);
-            console.log(socket_id);
             var payload = {
                 message: message,
-               // socket_id: socket_id
              };
            
             $.post( URI, payload,function(response){ // send message to controller
