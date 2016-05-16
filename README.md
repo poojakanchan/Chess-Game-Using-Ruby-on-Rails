@@ -8,7 +8,7 @@ The game works as follows:
 - Scores are recorded per account. 
 - Login is provided for user authentication
 - Social media connectivity to Facebook is provided.
-Technologies Used: Ruby on Rails, PostGreSQL, Javascript, CSS, HTML
+- Technologies Used: Ruby on Rails, PostGreSQL, Javascript, CSS, HTML
 
 ## Steps to install the application:
 1. Make sure you have Ruby on Rails and PostresSQL installed on your system
